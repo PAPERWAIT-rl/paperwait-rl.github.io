@@ -10,4 +10,4 @@ from iaacompiler import IAAModule
 c = IAAModule()
 c.parse_iaa("your.iaa")
 ```
-IAA is a simple config file format.
+For further usage and IAA langauge syntax check out the [Github Pages Docs.](https://paperwait-rl.github.io/)
