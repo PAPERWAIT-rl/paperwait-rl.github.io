@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>IAA Config Documentation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --sidebar-bg: #fafafa;
+      --border: #e5e7eb;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --heading: #111827;
+      --nav-hover: #f3f4f6;
+      --nav-active: #edf2f7;
+      --code-bg: #f8fafc;
+      --button-bg: #111827;
+      --button-hover: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Newsreader", serif;
+      line-height: 1.7;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 270px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      border-right: 1px solid var(--border);
+      background: var(--sidebar-bg);
+      padding: 26px 18px;
+      overflow-y: auto;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--heading);
+      margin-bottom: 28px;
+    }
+
+    .sidebar-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 700;
+      font-family: system-ui, sans-serif;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 4px;
+      font-size: 15px;
+      transition: background-color 0.16s ease;
+      font-family: system-ui, sans-serif;
+    }
+
+    .nav a:hover {
+      background: var(--nav-hover);
+    }
+
+    .nav a.active {
+      background: var(--nav-active);
+      color: var(--heading);
+      font-weight: 600;
+    }
+
+    .content {
+      margin-left: 270px;
+      width: calc(100% - 270px);
+      padding: 48px 56px;
+    }
+
+    .page {
+      display: none;
+      max-width: 960px;
+      animation: fade 0.18s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(2px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 40px;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--heading);
+    }
+
+    h2 {
+      margin-top: 42px;
+      margin-bottom: 10px;
+      font-size: 27px;
+      line-height: 1.2;
+      font-weight: 600;
+      color: var(--heading);
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      margin-top: 28px;
+      margin-bottom: 8px;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--heading);
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
+
+    .intro {
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 18px;
+    }
+
+    ul {
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.92em;
+      background: #f3f4f6;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1.75;
+      color: #111827;
+      display: block;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #fafafa;
+      font-weight: 600;
+      font-family: system-ui, sans-serif;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid #111827;
+      background: var(--button-bg);
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: system-ui, sans-serif;
+      font-weight: 600;
+      transition: background-color 0.16s ease;
+    }
+
+    .button:hover {
+      background: var(--button-hover);
+    }
+
+    .secondary-link {
+      color: #111827;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-family: system-ui, sans-serif;
+      font-size: 15px;
+    }
+
+    .footer-note {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--muted);
+      font-family: system-ui, sans-serif;
+    }
+
+    @media (max-width: 920px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        position: relative;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .content {
+        width: 100%;
+        margin-left: 0;
+        padding: 32px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+
+      <div class="brand">IAA Config</div>
+
+      <div class="sidebar-label">Documentation</div>
+
+      <nav class="nav">
+        <a href="#overview" data-page="overview">Overview</a>
+        <a href="#syntax" data-page="syntax">Syntax</a>
+        <a href="#examples" data-page="examples">Examples</a>
+        <a href="#rules" data-page="rules">Rules</a>
+        <a href="#value-types" data-page="value-types">Value Types</a>
+        <a href="#expressions" data-page="expressions">Expressions</a>
+        <a href="#dynamic-variables" data-page="dynamic-variables">Dynamic Variables</a>
+      </nav>
+
+    </aside>
+
+    <main class="content">
+
+      <!-- OVERVIEW -->
+      <section class="page" id="overview-page">
+
+        <h1>Overview</h1>
+
+        <p class="intro">
+          IAA Config is a lightweight sequential configuration language designed
+          for deterministic parsing, runtime variable management, and expression-based
+          configuration values.
+        </p>
+
+        <div class="button-row">
+          <a class="button" href="iaa-language-0.0.1.vsix" download>
+            Install VS Code Extension
+          </a>
+
+          <a class="secondary-link" href="https://pypi.org/project/iaacompiler/" target="_blank">
+            View Python Package
+          </a>
+        </div>
+
+        <p>
+          After installing the VS Code extension, manually load the included color
+          theme from the VS Code theme selector to enable syntax highlighting and
+          editor styling.
+        </p>
+
+        <h2>Core Behavior</h2>
+
+        <ul>
+          <li>Files are parsed top to bottom.</li>
+          <li>Values become available immediately after parsing.</li>
+          <li>Expressions may reference earlier variables.</li>
+          <li>Only bracketed expressions are evaluated.</li>
+          <li>Dynamic variables may be updated and written back to disk.</li>
+        </ul>
+
+        <h2>Basic Structure</h2>
+
+<pre><code>{Production Configuration}
+
+application_name:
+ Inventory Service
+
+port:
+ 8080</code></pre>
+
+        <div class="footer-note">
+          IAA Config Documentation
+        </div>
+
+      </section>
+
+      <!-- SYNTAX -->
+      <section class="page" id="syntax-page">
+
+        <h1>Syntax</h1>
+
+        <p class="intro">
+          The language uses a compact line-oriented structure with explicit
+          evaluation rules and predictable parser behavior.
+        </p>
+
+        <h2>Title Blocks</h2>
+
+<pre><code>{Test Config}</code></pre>
+
+        <h2>Variables</h2>
+
+<pre><code>service_name:
+ Inventory API</code></pre>
+
+        <h2>Dynamic Variables</h2>
+
+<pre><code>dynamic version:
+ 1.2</code></pre>
+
+        <h2>Comments</h2>
+
+<pre><code># Comments are ignored by the parser</code></pre>
+
+        <h2>Expressions</h2>
+
+<pre><code>release_identifier:
+ [version + build_number]</code></pre>
+
+      </section>
+
+      <!-- EXAMPLES -->
+      <section class="page" id="examples-page">
+
+        <h1>Examples</h1>
+
+        <p class="intro">
+          The following examples demonstrate common configuration patterns,
+          runtime access, and dynamic variable persistence.
+        </p>
+
+        <h2>Complete Example File</h2>
+
+<pre><code>{Test Config}
+
+dynamic version:
+ 1.2
+
+application_name:
+ Rise of the Example Service: Season 2
+
+dynamic build_number:
+ 42
+
+debug_mode:
+ False
+
+release_identifier:
+ [version + build_number]</code></pre>
+
+        <h2>Loading a Configuration</h2>
+
+<pre><code>from iaa import IAAModule
+
+cfg = IAAModule()
+cfg.parse_iaa("config.iaa")
+
+print(cfg.application_name)
+print(cfg.version)
+print(cfg.release_identifier)</code></pre>
+
+        <h2>Updating a Dynamic Variable</h2>
+
+<pre><code>cfg.modify_dynamic(
+    "version",
+    2.0,
+    "config.iaa"
+)</code></pre>
+
+        <h2>Expression Evaluation</h2>
+
+<pre><code>{Runtime Configuration}
+
+dynamic major:
+ 2
+
+dynamic minor:
+ 8
+
+full_version:
+ [major + minor]</code></pre>
+
+      </section>
+
+      <!-- RULES -->
+      <section class="page" id="rules-page">
+
+        <h1>Rules</h1>
+
+        <p class="intro">
+          The parser follows a strict sequential execution model intended
+          to keep evaluation deterministic and predictable.
+        </p>
+
+        <h2>Parser Rules</h2>
+
+        <ul>
+          <li>Read top to bottom.</li>
+          <li>Store values immediately.</li>
+          <li>Evaluate only bracketed expressions.</li>
+          <li>Later values cannot be used before they appear in the file.</li>
+          <li>Dynamic variables can be modified and written back.</li>
+        </ul>
+
+        <h2>Invalid Forward Reference</h2>
+
+<pre><code>build_name:
+ [version + 1]
+
+version:
+ 2</code></pre>
+
+        <h2>Valid Ordering</h2>
+
+<pre><code>version:
+ 2
+
+build_name:
+ [version + 1]</code></pre>
+
+      </section>
+
+      <!-- VALUE TYPES -->
+      <section class="page" id="value-types-page">
+
+        <h1>Value Types</h1>
+
+        <p class="intro">
+          IAA Config supports a small set of primitive runtime value types.
+        </p>
+
+        <h2>Supported Types</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Integer</td>
+              <td>Whole numeric values.</td>
+            </tr>
+
+            <tr>
+              <td>Float</td>
+              <td>Decimal numeric values.</td>
+            </tr>
+
+            <tr>
+              <td>String</td>
+              <td>General text values.</td>
+            </tr>
+
+            <tr>
+              <td>Boolean</td>
+              <td>May currently be treated as strings unless explicitly parsed.</td>
+            </tr>
+          </tbody>
+        </table>
+
+<pre><code>integer_value:
+ 42
+
+float_value:
+ 1.25
+
+service_name:
+ Inventory API</code></pre>
+
+      </section>
+
+      <!-- EXPRESSIONS -->
+      <section class="page" id="expressions-page">
+
+        <h1>Expressions</h1>
+
+        <p class="intro">
+          Expressions provide lightweight arithmetic support using previously
+          declared variables and restricted operators.
+        </p>
+
+        <h2>Expression Format</h2>
+
+<pre><code>release_id:
+ [version + build_number]</code></pre>
+
+        <h2>Supported Operators</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Operator</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td><code>+</code></td>
+              <td>Addition</td>
+            </tr>
+
+            <tr>
+              <td><code>-</code></td>
+              <td>Subtraction</td>
+            </tr>
+
+            <tr>
+              <td><code>*</code></td>
+              <td>Multiplication</td>
+            </tr>
+
+            <tr>
+              <td><code>/</code></td>
+              <td>Division</td>
+            </tr>
+
+            <tr>
+              <td><code>**</code></td>
+              <td>Exponentiation</td>
+            </tr>
+
+            <tr>
+              <td><code>%</code></td>
+              <td>Modulo</td>
+            </tr>
+
+            <tr>
+              <td><code>unary +</code></td>
+              <td>Unary positive operator</td>
+            </tr>
+
+            <tr>
+              <td><code>unary -</code></td>
+              <td>Unary negative operator</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
+
+      <!-- DYNAMIC VARIABLES -->
+      <section class="page" id="dynamic-variables-page">
+
+        <h1>Dynamic Variables</h1>
+
+        <p class="intro">
+          Dynamic variables are mutable runtime values that can be modified
+          and persisted back into configuration files.
+        </p>
+
+        <h2>Declaration</h2>
+
+<pre><code>dynamic version:
+ 1.2</code></pre>
+
+        <h2>Python Integration</h2>
+
+<pre><code>from iaa import IAAModule
+
+cfg = IAAModule()
+cfg.parse_iaa("config.iaa")
+
+cfg.modify_dynamic(
+    "build_number",
+    43,
+    "config.iaa"
+)</code></pre>
+
+        <h2>Persistence Workflow</h2>
+
+        <p>
+          Dynamic values maintain their original file structure while updating
+          only the associated value line inside the configuration document.
+        </p>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+    const links = document.querySelectorAll(".nav a");
+    const pages = document.querySelectorAll(".page");
+
+    function showPage(hash) {
+      const current = hash.replace("#", "") || "overview";
+
+      pages.forEach(page => {
+        page.classList.remove("active");
+      });
+
+      links.forEach(link => {
+        link.classList.remove("active");
+      });
+
+      const activePage = document.getElementById(current + "-page");
+      const activeLink = document.querySelector(`[data-page="${current}"]`);
+
+      if (activePage) {
+        activePage.classList.add("active");
+      }
+
+      if (activeLink) {
+        activeLink.classList.add("active");
+      }
+    }
+
+    window.addEventListener("hashchange", () => {
+      showPage(window.location.hash);
+    });
+
+    showPage(window.location.hash || "#overview");
+  </script>
+
+</body>
+</html>
