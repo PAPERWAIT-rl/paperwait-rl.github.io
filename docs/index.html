@@ -326,6 +326,8 @@
           configuration values.
         </p>
 
+        
+
         <div class="button-row">
           <a class="button" href="iaa-language-0.0.1.vsix" download>
             Install VS Code Extension
@@ -351,6 +353,7 @@
           <li>Only bracketed expressions are evaluated.</li>
           <li>Dynamic variables may be updated and written back to disk.</li>
         </ul>
+
 
         <h2>Basic Structure</h2>
 
@@ -411,6 +414,9 @@ port:
         <p class="intro">
           The following examples demonstrate common configuration patterns,
           runtime access, and dynamic variable persistence.
+        </p>
+	<p>
+          Note: The <code>{}</code> title is accessible through <code>cfg.title</code>, and IAA variables are converted into Python variables. They are also available in dictionaries as <code>dyvars</code> and <code>ivars</code> through <code>cfg.dict/varname</code>.
         </p>
 
         <h2>Complete Example File</h2>
