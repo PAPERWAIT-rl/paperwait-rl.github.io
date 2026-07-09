@@ -270,6 +270,20 @@
       font-family: system-ui, sans-serif;
     }
 
+    .callout {
+      border: 1px solid var(--border);
+      background: #fcfcfd;
+      padding: 16px 18px;
+      border-radius: 6px;
+      margin: 18px 0 24px;
+    }
+
+    .api-url {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
     @media (max-width: 920px) {
       .layout {
         flex-direction: column;
@@ -309,24 +323,21 @@
         <a href="#value-types" data-page="value-types">Value Types</a>
         <a href="#expressions" data-page="expressions">Expressions</a>
         <a href="#dynamic-variables" data-page="dynamic-variables">Dynamic Variables</a>
+        <a href="#nested-variables" data-page="nested-variables">Nested Variables</a>
+        <a href="#api" data-page="api">API</a>
       </nav>
 
     </aside>
 
     <main class="content">
 
-      <!-- OVERVIEW -->
       <section class="page" id="overview-page">
 
         <h1>Overview</h1>
 
         <p class="intro">
-          IAA Config is a lightweight sequential configuration language designed
-          for deterministic parsing, runtime variable management, and expression-based
-          configuration values.
+          IAA Config is a lightweight sequential configuration language designed for deterministic parsing, runtime variable management, nested object support, and format conversion.
         </p>
-
-        
 
         <div class="button-row">
           <a class="button" href="iaa-language-0.0.1.vsix" download>
@@ -339,9 +350,7 @@
         </div>
 
         <p>
-          After installing the VS Code extension, manually load the included color
-          theme from the VS Code theme selector to enable syntax highlighting and
-          editor styling.
+          After installing the VS Code extension, manually load the included color theme from the VS Code theme selector to enable syntax highlighting and editor styling.
         </p>
 
         <h2>Core Behavior</h2>
@@ -352,8 +361,8 @@
           <li>Expressions may reference earlier variables.</li>
           <li>Only bracketed expressions are evaluated.</li>
           <li>Dynamic variables may be updated and written back to disk.</li>
+          <li>Nested variable paths using dot notation are converted into structured objects.</li>
         </ul>
-
 
         <h2>Basic Structure</h2>
 
@@ -371,14 +380,12 @@ port:
 
       </section>
 
-      <!-- SYNTAX -->
       <section class="page" id="syntax-page">
 
         <h1>Syntax</h1>
 
         <p class="intro">
-          The language uses a compact line-oriented structure with explicit
-          evaluation rules and predictable parser behavior.
+          The language uses a compact line-oriented structure with explicit evaluation rules and predictable parser behavior.
         </p>
 
         <h2>Title Blocks</h2>
@@ -406,16 +413,14 @@ port:
 
       </section>
 
-      <!-- EXAMPLES -->
       <section class="page" id="examples-page">
 
         <h1>Examples</h1>
 
         <p class="intro">
-          The following examples demonstrate common configuration patterns,
-          runtime access, and dynamic variable persistence.
+          The following examples demonstrate common configuration patterns, runtime access, nested objects, and dynamic variable persistence.
         </p>
-	<p>
+        <p>
           Note: The <code>{}</code> title is accessible through <code>cfg.title</code>, and IAA variables are converted into Python variables. They are also available in dictionaries as <code>dyvars</code> and <code>ivars</code> through <code>cfg.dict/varname</code>.
         </p>
 
@@ -472,14 +477,12 @@ full_version:
 
       </section>
 
-      <!-- RULES -->
       <section class="page" id="rules-page">
 
         <h1>Rules</h1>
 
         <p class="intro">
-          The parser follows a strict sequential execution model intended
-          to keep evaluation deterministic and predictable.
+          The parser follows a strict sequential execution model intended to keep evaluation deterministic and predictable.
         </p>
 
         <h2>Parser Rules</h2>
@@ -490,6 +493,7 @@ full_version:
           <li>Evaluate only bracketed expressions.</li>
           <li>Later values cannot be used before they appear in the file.</li>
           <li>Dynamic variables can be modified and written back.</li>
+          <li>Nested paths automatically create objects for each section in the path.</li>
         </ul>
 
         <h2>Invalid Forward Reference</h2>
@@ -510,7 +514,6 @@ build_name:
 
       </section>
 
-      <!-- VALUE TYPES -->
       <section class="page" id="value-types-page">
 
         <h1>Value Types</h1>
@@ -563,14 +566,12 @@ service_name:
 
       </section>
 
-      <!-- EXPRESSIONS -->
       <section class="page" id="expressions-page">
 
         <h1>Expressions</h1>
 
         <p class="intro">
-          Expressions provide lightweight arithmetic support using previously
-          declared variables and restricted operators.
+          Expressions provide lightweight arithmetic support using previously declared variables and restricted operators.
         </p>
 
         <h2>Expression Format</h2>
@@ -633,14 +634,12 @@ service_name:
 
       </section>
 
-      <!-- DYNAMIC VARIABLES -->
       <section class="page" id="dynamic-variables-page">
 
         <h1>Dynamic Variables</h1>
 
         <p class="intro">
-          Dynamic variables are mutable runtime values that can be modified
-          and persisted back into configuration files.
+          Dynamic variables are mutable runtime values that can be modified and persisted back into configuration files.
         </p>
 
         <h2>Declaration</h2>
@@ -664,9 +663,101 @@ cfg.modify_dynamic(
         <h2>Persistence Workflow</h2>
 
         <p>
-          Dynamic values maintain their original file structure while updating
-          only the associated value line inside the configuration document.
+          Dynamic values maintain their original file structure while updating only the associated value line inside the configuration document.
         </p>
+
+      </section>
+
+      <section class="page" id="nested-variables-page">
+
+        <h1>Nested Variables</h1>
+
+        <p class="intro">
+          IAA now supports nested variables using dot notation, so deeply structured configuration can be written directly in a flat file.
+        </p>
+
+        <h2>Dot Notation</h2>
+
+        <p>Use <code>.</code> to separate path segments. Unlimited nesting depth is supported, and each section automatically becomes an object.</p>
+
+<pre><code>server.host:
+ localhost
+
+server.port:
+ 8080
+
+server.settings.debug:
+ True</code></pre>
+
+        <h2>Structured Output</h2>
+
+<pre><code>{
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "settings": {
+      "debug": true
+    }
+  }
+}</code></pre>
+
+        <h2>Nested Example</h2>
+
+<pre><code>a.b.c.value:
+ example</code></pre>
+
+        <p>This becomes <code>{"a":{"b":{"c":{"value":"example"}}}}</code> during parsing and API conversion.</p>
+
+      </section>
+
+      <section class="page" id="api-page">
+
+        <h1>API</h1>
+
+        <p class="intro">
+          The IAA Conversion API converts IAA files into JSON, YAML, or TOML, and can also convert JSON, YAML, or TOML back into IAA.
+        </p>
+
+        <div class="callout">
+          <div><strong>Base URL</strong></div>
+          <div class="api-url">https://iaa.graham-hodges.workers.dev/</div>
+        </div>
+
+        <h2>Request Format</h2>
+
+<pre><code>{
+  "format": "json",
+  "data": "server.host:\n localhost"
+}</code></pre>
+
+        <h2>Response Example</h2>
+
+<pre><code>{
+  "server": {
+    "host": "localhost"
+  }
+}</code></pre>
+
+        <h2>Supported Conversions</h2>
+
+        <table>
+          <thead><tr><th>Source</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td>IAA</td><td>JSON, YAML, TOML</td></tr>
+            <tr><td>JSON</td><td>IAA</td></tr>
+            <tr><td>YAML</td><td>IAA</td></tr>
+            <tr><td>TOML</td><td>IAA</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Nested Conversion Example</h2>
+
+<pre><code>server.host:
+ localhost
+server.settings.debug:
+ True</code></pre>
+
+        <p>The API should return a structured object with nested keys rather than a flat map when dot notation is present.</p>
 
       </section>
 
