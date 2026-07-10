@@ -321,7 +321,6 @@
         <a href="#examples" data-page="examples">Examples</a>
         <a href="#rules" data-page="rules">Rules</a>
         <a href="#value-types" data-page="value-types">Value Types</a>
-        <a href="#expressions" data-page="expressions">Expressions</a>
         <a href="#dynamic-variables" data-page="dynamic-variables">Dynamic Variables</a>
         <a href="#nested-variables" data-page="nested-variables">Nested Variables</a>
         <a href="#api" data-page="api">API</a>
@@ -566,74 +565,7 @@ service_name:
 
       </section>
 
-      <section class="page" id="expressions-page">
-
-        <h1>Expressions</h1>
-
-        <p class="intro">
-          Expressions provide lightweight arithmetic support using previously declared variables and restricted operators.
-        </p>
-
-        <h2>Expression Format</h2>
-
-<pre><code>release_id:
- [version + build_number]</code></pre>
-
-        <h2>Supported Operators</h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Operator</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td><code>+</code></td>
-              <td>Addition</td>
-            </tr>
-
-            <tr>
-              <td><code>-</code></td>
-              <td>Subtraction</td>
-            </tr>
-
-            <tr>
-              <td><code>*</code></td>
-              <td>Multiplication</td>
-            </tr>
-
-            <tr>
-              <td><code>/</code></td>
-              <td>Division</td>
-            </tr>
-
-            <tr>
-              <td><code>**</code></td>
-              <td>Exponentiation</td>
-            </tr>
-
-            <tr>
-              <td><code>%</code></td>
-              <td>Modulo</td>
-            </tr>
-
-            <tr>
-              <td><code>unary +</code></td>
-              <td>Unary positive operator</td>
-            </tr>
-
-            <tr>
-              <td><code>unary -</code></td>
-              <td>Unary negative operator</td>
-            </tr>
-          </tbody>
-        </table>
-
-      </section>
-
+     
       <section class="page" id="dynamic-variables-page">
 
         <h1>Dynamic Variables</h1>
@@ -720,7 +652,7 @@ server.settings.debug:
 
         <div class="callout">
           <div><strong>Base URL</strong></div>
-          <div class="api-url">https://iaa.graham-hodges.workers.dev/</div>
+          <div class="api-url">https://iaa.iaa-api.workers.dev/</div>
         </div>
 
         <h2>Request Format</h2>
@@ -745,8 +677,6 @@ server.settings.debug:
           <tbody>
             <tr><td>IAA</td><td>JSON, YAML, TOML</td></tr>
             <tr><td>JSON</td><td>IAA</td></tr>
-            <tr><td>YAML</td><td>IAA</td></tr>
-            <tr><td>TOML</td><td>IAA</td></tr>
           </tbody>
         </table>
 
