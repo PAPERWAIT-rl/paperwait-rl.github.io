@@ -357,8 +357,6 @@
         <ul>
           <li>Files are parsed top to bottom.</li>
           <li>Values become available immediately after parsing.</li>
-          <li>Expressions may reference earlier variables.</li>
-          <li>Only bracketed expressions are evaluated.</li>
           <li>Dynamic variables may be updated and written back to disk.</li>
           <li>Nested variable paths using dot notation are converted into structured objects.</li>
         </ul>
@@ -454,18 +452,6 @@ print(cfg.release_identifier)</code></pre>
     "config.iaa"
 )</code></pre>
 
-        <h2>Expression Evaluation</h2>
-
-<pre><code>{Runtime Configuration}
-
-dynamic major:
- 2
-
-dynamic minor:
- 8
-
-</code></pre>
-
       </section>
 
       <section class="page" id="rules-page">
@@ -481,7 +467,6 @@ dynamic minor:
         <ul>
           <li>Read top to bottom.</li>
           <li>Store values immediately.</li>
-          <li>Evaluate only bracketed expressions.</li>
           <li>Later values cannot be used before they appear in the file.</li>
           <li>Dynamic variables can be modified and written back.</li>
           <li>Nested paths automatically create objects for each section in the path.</li>
