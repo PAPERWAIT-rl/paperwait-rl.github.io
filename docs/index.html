@@ -405,11 +405,6 @@ port:
 
 <pre><code># Comments are ignored by the parser</code></pre>
 
-        <h2>Expressions</h2>
-
-<pre><code>release_identifier:
- [version + build_number]</code></pre>
-
       </section>
 
       <section class="page" id="examples-page">
@@ -438,9 +433,7 @@ dynamic build_number:
 
 debug_mode:
  False
-
-release_identifier:
- [version + build_number]</code></pre>
+</code></pre>
 
         <h2>Loading a Configuration</h2>
 
@@ -471,8 +464,7 @@ dynamic major:
 dynamic minor:
  8
 
-full_version:
- [major + minor]</code></pre>
+</code></pre>
 
       </section>
 
@@ -494,22 +486,6 @@ full_version:
           <li>Dynamic variables can be modified and written back.</li>
           <li>Nested paths automatically create objects for each section in the path.</li>
         </ul>
-
-        <h2>Invalid Forward Reference</h2>
-
-<pre><code>build_name:
- [version + 1]
-
-version:
- 2</code></pre>
-
-        <h2>Valid Ordering</h2>
-
-<pre><code>version:
- 2
-
-build_name:
- [version + 1]</code></pre>
 
       </section>
 
